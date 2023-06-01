@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AccessRequestsModelStoreContainer" CdmEntityContainer="AccessRequestsEntities">
+    <EntitySetMapping Name="Accesses">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Access">
+        <MappingFragment StoreEntitySet="Access">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Access1" ColumnName="Access" />
+          <ScalarProperty Name="IdApplication" ColumnName="IdApplication" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+          <ScalarProperty Name="IdApprover" ColumnName="IdApprover" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccessPruebas">
+      <EntityTypeMapping TypeName="AccessRequestsModel.AccessPrueba">
+        <MappingFragment StoreEntitySet="AccessPrueba">
+          <ScalarProperty Name="PositionPru" ColumnName="PositionPru" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Access" ColumnName="Access" />
+          <ScalarProperty Name="Application" ColumnName="Application" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Applications">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Application">
+        <MappingFragment StoreEntitySet="Application">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Application1" ColumnName="Application" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Approvers">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Approver">
+        <MappingFragment StoreEntitySet="Approver">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="IdHeadquarter" ColumnName="IdHeadquarter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Employee">
+        <MappingFragment StoreEntitySet="Employee">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Employee1" ColumnName="Employee" />
+          <ScalarProperty Name="LastName1" ColumnName="LastName1" />
+          <ScalarProperty Name="LastName2" ColumnName="LastName2" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Headquarters">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Headquarter">
+        <MappingFragment StoreEntitySet="Headquarter">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Headquarter1" ColumnName="Headquarter" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Position">
+        <MappingFragment StoreEntitySet="Position">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Position1" ColumnName="Position" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Requests">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Request">
+        <MappingFragment StoreEntitySet="Request">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+          <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+          <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+          <ScalarProperty Name="IdSupervisor" ColumnName="IdSupervisor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Status">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Status">
+        <MappingFragment StoreEntitySet="Status">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Status1" ColumnName="Status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Supervisors">
+      <EntityTypeMapping TypeName="AccessRequestsModel.Supervisor">
+        <MappingFragment StoreEntitySet="Supervisor">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccessPositions">
+      <EntityTypeMapping TypeName="AccessRequestsModel.AccessPosition">
+        <MappingFragment StoreEntitySet="AccessPosition">
+          <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+          <ScalarProperty Name="IdAccess" ColumnName="IdAccess" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AccessRequesteds">
+      <EntityTypeMapping TypeName="AccessRequestsModel.AccessRequested">
+        <MappingFragment StoreEntitySet="AccessRequested">
+          <ScalarProperty Name="IdRequest" ColumnName="IdRequest" />
+          <ScalarProperty Name="IdAccess" ColumnName="IdAccess" />
+          <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+          <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ConsultarPositions" FunctionName="AccessRequestsModel.Store.ConsultarPositions">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="AccessRequestsModel.ConsultarPositions_Result">
+          <ScalarProperty Name="Access" ColumnName="Access" />
+          <ScalarProperty Name="Application" ColumnName="Application" />
+          <ScalarProperty Name="Level" ColumnName="Level" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

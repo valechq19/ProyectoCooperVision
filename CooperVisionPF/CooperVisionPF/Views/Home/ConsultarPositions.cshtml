@@ -1,0 +1,35 @@
+﻿@model CooperVisionPF.Models.UsuariosModel
+
+@{
+    var model = new CooperVisionPF.Models.UsuariosModel();
+
+}
+
+<div class="container">
+    <div class="form-group">
+        <div class="input-group">
+            <input type="text" id="Search" placeholder="Search" class="form-control" />
+        </div>
+    </div>
+</div>
+<br />
+<table class="table table-striped">
+    <thead>
+        <tr>
+
+            <th> Access </th>
+            <th> System </th>
+            <th> Level </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Item in model.ConsultarPositions())
+        {
+            <tr class="Search">
+                <td>@Item.Access</td>
+                <td>@Item.Application</td>
+                <td>@Item.Level</td>
+            </tr>
+        }
+    </tbody>
+</table>

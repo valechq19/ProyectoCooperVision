@@ -1,0 +1,802 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AccessRequestsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Access">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Access" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="IdApplication" Type="bigint" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="IdApprover" Type="bigint" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AccessRequests.dbo.AccessPosition' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AccessPosition">
+          <Key>
+            <PropertyRef Name="IdAccess" />
+          </Key>
+          <Property Name="IdPosition" Type="bigint" />
+          <Property Name="IdAccess" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AccessPrueba">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="PositionPru" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Access" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Application" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Level" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AccessRequests.dbo.AccessRequested' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="AccessRequested">
+          <Key>
+            <PropertyRef Name="IdRequest" />
+            <PropertyRef Name="IdAccess" />
+            <PropertyRef Name="IdStatus" />
+          </Key>
+          <Property Name="IdRequest" Type="bigint" Nullable="false" />
+          <Property Name="IdAccess" Type="bigint" Nullable="false" />
+          <Property Name="IdStatus" Type="bigint" Nullable="false" />
+          <Property Name="UpdateDate" Type="datetime" />
+          <Property Name="Comments" Type="varchar" MaxLength="200" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Application" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Approver">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="40" Nullable="false" />
+          <Property Name="IdHeadquarter" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" Nullable="false" />
+          <Property Name="Employee" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName1" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName2" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Headquarter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Headquarter" Type="varchar" MaxLength="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Position" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdEmployee" Type="bigint" />
+          <Property Name="IdPosition" Type="bigint" />
+          <Property Name="RequestDate" Type="datetime" />
+          <Property Name="IdSupervisor" Type="bigint" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Status" Type="varchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="40" Nullable="false" />
+        </EntityType>
+        <Association Name="FkAccess">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="AccessPosition" Type="Self.AccessPosition" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessPosition">
+              <PropertyRef Name="IdAccess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkAccess2">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdAccess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkApplication">
+          <End Role="Application" Type="Self.Application" Multiplicity="1" />
+          <End Role="Access" Type="Self.Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="IdApplication" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkApprover">
+          <End Role="Approver" Type="Self.Approver" Multiplicity="1" />
+          <End Role="Access" Type="Self.Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Approver">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="IdApprover" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkEmployee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkHeadquarter">
+          <End Role="Headquarter" Type="Self.Headquarter" Multiplicity="1" />
+          <End Role="Approver" Type="Self.Approver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Headquarter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Approver">
+              <PropertyRef Name="IdHeadquarter" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkPosition">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkPosition2">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="AccessPosition" Type="Self.AccessPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessPosition">
+              <PropertyRef Name="IdPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkRequest">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdRequest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkStatus">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkSupervisor">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="ConsultarPositions" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="AccessRequestsModelStoreContainer">
+          <EntitySet Name="Access" EntityType="Self.Access" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccessPrueba" EntityType="Self.AccessPrueba" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Application" EntityType="Self.Application" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Approver" EntityType="Self.Approver" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Headquarter" EntityType="Self.Headquarter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Position" EntityType="Self.Position" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Request" EntityType="Self.Request" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supervisor" EntityType="Self.Supervisor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccessPosition" EntityType="Self.AccessPosition" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AccessPosition].[IdPosition] AS [IdPosition], 
+    [AccessPosition].[IdAccess] AS [IdAccess]
+    FROM [dbo].[AccessPosition] AS [AccessPosition]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="AccessRequested" EntityType="Self.AccessRequested" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [AccessRequested].[IdRequest] AS [IdRequest], 
+    [AccessRequested].[IdAccess] AS [IdAccess], 
+    [AccessRequested].[IdStatus] AS [IdStatus], 
+    [AccessRequested].[UpdateDate] AS [UpdateDate], 
+    [AccessRequested].[Comments] AS [Comments]
+    FROM [dbo].[AccessRequested] AS [AccessRequested]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FkAccess" Association="Self.FkAccess">
+            <End Role="Access" EntitySet="Access" />
+            <End Role="AccessPosition" EntitySet="AccessPosition" />
+          </AssociationSet>
+          <AssociationSet Name="FkAccess2" Association="Self.FkAccess2">
+            <End Role="Access" EntitySet="Access" />
+            <End Role="AccessRequested" EntitySet="AccessRequested" />
+          </AssociationSet>
+          <AssociationSet Name="FkApplication" Association="Self.FkApplication">
+            <End Role="Application" EntitySet="Application" />
+            <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
+          <AssociationSet Name="FkApprover" Association="Self.FkApprover">
+            <End Role="Approver" EntitySet="Approver" />
+            <End Role="Access" EntitySet="Access" />
+          </AssociationSet>
+          <AssociationSet Name="FkEmployee" Association="Self.FkEmployee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FkHeadquarter" Association="Self.FkHeadquarter">
+            <End Role="Headquarter" EntitySet="Headquarter" />
+            <End Role="Approver" EntitySet="Approver" />
+          </AssociationSet>
+          <AssociationSet Name="FkPosition" Association="Self.FkPosition">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+          <AssociationSet Name="FkPosition2" Association="Self.FkPosition2">
+            <End Role="Position" EntitySet="Position" />
+            <End Role="AccessPosition" EntitySet="AccessPosition" />
+          </AssociationSet>
+          <AssociationSet Name="FkRequest" Association="Self.FkRequest">
+            <End Role="Request" EntitySet="Request" />
+            <End Role="AccessRequested" EntitySet="AccessRequested" />
+          </AssociationSet>
+          <AssociationSet Name="FkStatus" Association="Self.FkStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="AccessRequested" EntitySet="AccessRequested" />
+          </AssociationSet>
+          <AssociationSet Name="FkSupervisor" Association="Self.FkSupervisor">
+            <End Role="Supervisor" EntitySet="Supervisor" />
+            <End Role="Request" EntitySet="Request" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AccessRequestsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Access">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Access1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdApplication" Type="Int64" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdApprover" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="AccessPosition" Relationship="Self.FkAccess" FromRole="Access" ToRole="AccessPosition" />
+          <NavigationProperty Name="AccessRequesteds" Relationship="Self.FkAccess2" FromRole="Access" ToRole="AccessRequested" />
+          <NavigationProperty Name="Application" Relationship="Self.FkApplication" FromRole="Access" ToRole="Application" />
+          <NavigationProperty Name="Approver" Relationship="Self.FkApprover" FromRole="Access" ToRole="Approver" />
+        </EntityType>
+        <EntityType Name="AccessPrueba">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="PositionPru" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Access" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Application" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Level" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Application">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Application1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Accesses" Relationship="Self.FkApplication" FromRole="Application" ToRole="Access" />
+        </EntityType>
+        <EntityType Name="Approver">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IdHeadquarter" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Accesses" Relationship="Self.FkApprover" FromRole="Approver" ToRole="Access" />
+          <NavigationProperty Name="Headquarter" Relationship="Self.FkHeadquarter" FromRole="Approver" ToRole="Headquarter" />
+        </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" />
+          <Property Name="Employee1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName2" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FkEmployee" FromRole="Employee" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="Headquarter">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Headquarter1" Type="String" MaxLength="2" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Approvers" Relationship="Self.FkHeadquarter" FromRole="Headquarter" ToRole="Approver" />
+        </EntityType>
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Position1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FkPosition" FromRole="Position" ToRole="Request" />
+          <NavigationProperty Name="AccessPositions" Relationship="Self.FkPosition2" FromRole="Position" ToRole="AccessPosition" />
+        </EntityType>
+        <EntityType Name="Request">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdEmployee" Type="Int64" />
+          <Property Name="IdPosition" Type="Int64" />
+          <Property Name="RequestDate" Type="DateTime" Precision="3" />
+          <Property Name="IdSupervisor" Type="Int64" />
+          <NavigationProperty Name="Employee" Relationship="Self.FkEmployee" FromRole="Request" ToRole="Employee" />
+          <NavigationProperty Name="Position" Relationship="Self.FkPosition" FromRole="Request" ToRole="Position" />
+          <NavigationProperty Name="AccessRequesteds" Relationship="Self.FkRequest" FromRole="Request" ToRole="AccessRequested" />
+          <NavigationProperty Name="Supervisor" Relationship="Self.FkSupervisor" FromRole="Request" ToRole="Supervisor" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Status1" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="AccessRequesteds" Relationship="Self.FkStatus" FromRole="Status" ToRole="AccessRequested" />
+        </EntityType>
+        <EntityType Name="Supervisor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="40" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.FkSupervisor" FromRole="Supervisor" ToRole="Request" />
+        </EntityType>
+        <EntityType Name="AccessPosition">
+          <Key>
+            <PropertyRef Name="IdAccess" />
+          </Key>
+          <Property Name="IdPosition" Type="Int64" />
+          <Property Name="IdAccess" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Access" Relationship="Self.FkAccess" FromRole="AccessPosition" ToRole="Access" />
+          <NavigationProperty Name="Position" Relationship="Self.FkPosition2" FromRole="AccessPosition" ToRole="Position" />
+        </EntityType>
+        <EntityType Name="AccessRequested">
+          <Key>
+            <PropertyRef Name="IdRequest" />
+            <PropertyRef Name="IdAccess" />
+            <PropertyRef Name="IdStatus" />
+          </Key>
+          <Property Name="IdRequest" Type="Int64" Nullable="false" />
+          <Property Name="IdAccess" Type="Int64" Nullable="false" />
+          <Property Name="IdStatus" Type="Int64" Nullable="false" />
+          <Property Name="UpdateDate" Type="DateTime" Precision="3" />
+          <Property Name="Comments" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Access" Relationship="Self.FkAccess2" FromRole="AccessRequested" ToRole="Access" />
+          <NavigationProperty Name="Request" Relationship="Self.FkRequest" FromRole="AccessRequested" ToRole="Request" />
+          <NavigationProperty Name="Status" Relationship="Self.FkStatus" FromRole="AccessRequested" ToRole="Status" />
+        </EntityType>
+        <Association Name="FkAccess">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="AccessPosition" Type="Self.AccessPosition" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessPosition">
+              <PropertyRef Name="IdAccess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkAccess2">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdAccess" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkApplication">
+          <End Role="Application" Type="Self.Application" Multiplicity="1" />
+          <End Role="Access" Type="Self.Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Application">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="IdApplication" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkApprover">
+          <End Role="Approver" Type="Self.Approver" Multiplicity="1" />
+          <End Role="Access" Type="Self.Access" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Approver">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Access">
+              <PropertyRef Name="IdApprover" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkHeadquarter">
+          <End Role="Headquarter" Type="Self.Headquarter" Multiplicity="1" />
+          <End Role="Approver" Type="Self.Approver" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Headquarter">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Approver">
+              <PropertyRef Name="IdHeadquarter" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkEmployee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdEmployee" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkPosition">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkPosition2">
+          <End Role="Position" Type="Self.Position" Multiplicity="0..1" />
+          <End Role="AccessPosition" Type="Self.AccessPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Position">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessPosition">
+              <PropertyRef Name="IdPosition" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkRequest">
+          <End Role="Request" Type="Self.Request" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Request">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdRequest" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkSupervisor">
+          <End Role="Supervisor" Type="Self.Supervisor" Multiplicity="0..1" />
+          <End Role="Request" Type="Self.Request" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Supervisor">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Request">
+              <PropertyRef Name="IdSupervisor" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FkStatus">
+          <End Role="Status" Type="Self.Status" Multiplicity="1" />
+          <End Role="AccessRequested" Type="Self.AccessRequested" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="AccessRequested">
+              <PropertyRef Name="IdStatus" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccessRequestsEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Accesses" EntityType="Self.Access" />
+          <EntitySet Name="AccessPruebas" EntityType="Self.AccessPrueba" />
+          <EntitySet Name="Applications" EntityType="Self.Application" />
+          <EntitySet Name="Approvers" EntityType="Self.Approver" />
+          <EntitySet Name="Employees" EntityType="Self.Employee" />
+          <EntitySet Name="Headquarters" EntityType="Self.Headquarter" />
+          <EntitySet Name="Positions" EntityType="Self.Position" />
+          <EntitySet Name="Requests" EntityType="Self.Request" />
+          <EntitySet Name="Status" EntityType="Self.Status" />
+          <EntitySet Name="Supervisors" EntityType="Self.Supervisor" />
+          <EntitySet Name="AccessPositions" EntityType="Self.AccessPosition" />
+          <EntitySet Name="AccessRequesteds" EntityType="Self.AccessRequested" />
+          <AssociationSet Name="FkAccess" Association="Self.FkAccess">
+            <End Role="Access" EntitySet="Accesses" />
+            <End Role="AccessPosition" EntitySet="AccessPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FkAccess2" Association="Self.FkAccess2">
+            <End Role="Access" EntitySet="Accesses" />
+            <End Role="AccessRequested" EntitySet="AccessRequesteds" />
+          </AssociationSet>
+          <AssociationSet Name="FkApplication" Association="Self.FkApplication">
+            <End Role="Application" EntitySet="Applications" />
+            <End Role="Access" EntitySet="Accesses" />
+          </AssociationSet>
+          <AssociationSet Name="FkApprover" Association="Self.FkApprover">
+            <End Role="Approver" EntitySet="Approvers" />
+            <End Role="Access" EntitySet="Accesses" />
+          </AssociationSet>
+          <AssociationSet Name="FkHeadquarter" Association="Self.FkHeadquarter">
+            <End Role="Headquarter" EntitySet="Headquarters" />
+            <End Role="Approver" EntitySet="Approvers" />
+          </AssociationSet>
+          <AssociationSet Name="FkEmployee" Association="Self.FkEmployee">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FkPosition" Association="Self.FkPosition">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FkPosition2" Association="Self.FkPosition2">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="AccessPosition" EntitySet="AccessPositions" />
+          </AssociationSet>
+          <AssociationSet Name="FkRequest" Association="Self.FkRequest">
+            <End Role="Request" EntitySet="Requests" />
+            <End Role="AccessRequested" EntitySet="AccessRequesteds" />
+          </AssociationSet>
+          <AssociationSet Name="FkSupervisor" Association="Self.FkSupervisor">
+            <End Role="Supervisor" EntitySet="Supervisors" />
+            <End Role="Request" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="FkStatus" Association="Self.FkStatus">
+            <End Role="Status" EntitySet="Status" />
+            <End Role="AccessRequested" EntitySet="AccessRequesteds" />
+          </AssociationSet>
+          <FunctionImport Name="ConsultarPositions" ReturnType="Collection(AccessRequestsModel.ConsultarPositions_Result)" />
+        </EntityContainer>
+        <ComplexType Name="ConsultarPositions_Result">
+          <Property Type="String" Name="Access" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Application" Nullable="false" MaxLength="30" />
+          <Property Type="String" Name="Level" Nullable="false" MaxLength="30" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AccessRequestsModelStoreContainer" CdmEntityContainer="AccessRequestsEntities">
+          <EntitySetMapping Name="Accesses">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Access">
+              <MappingFragment StoreEntitySet="Access">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Access1" ColumnName="Access" />
+                <ScalarProperty Name="IdApplication" ColumnName="IdApplication" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+                <ScalarProperty Name="IdApprover" ColumnName="IdApprover" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessPruebas">
+            <EntityTypeMapping TypeName="AccessRequestsModel.AccessPrueba">
+              <MappingFragment StoreEntitySet="AccessPrueba">
+                <ScalarProperty Name="PositionPru" ColumnName="PositionPru" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Access" ColumnName="Access" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Applications">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Application">
+              <MappingFragment StoreEntitySet="Application">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Application1" ColumnName="Application" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Approvers">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Approver">
+              <MappingFragment StoreEntitySet="Approver">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="IdHeadquarter" ColumnName="IdHeadquarter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Employee1" ColumnName="Employee" />
+                <ScalarProperty Name="LastName1" ColumnName="LastName1" />
+                <ScalarProperty Name="LastName2" ColumnName="LastName2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Headquarters">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Headquarter">
+              <MappingFragment StoreEntitySet="Headquarter">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Headquarter1" ColumnName="Headquarter" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Positions">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Position">
+              <MappingFragment StoreEntitySet="Position">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Position1" ColumnName="Position" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Request">
+              <MappingFragment StoreEntitySet="Request">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="IdEmployee" ColumnName="IdEmployee" />
+                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="IdSupervisor" ColumnName="IdSupervisor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Status1" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Supervisors">
+            <EntityTypeMapping TypeName="AccessRequestsModel.Supervisor">
+              <MappingFragment StoreEntitySet="Supervisor">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessPositions">
+            <EntityTypeMapping TypeName="AccessRequestsModel.AccessPosition">
+              <MappingFragment StoreEntitySet="AccessPosition">
+                <ScalarProperty Name="IdPosition" ColumnName="IdPosition" />
+                <ScalarProperty Name="IdAccess" ColumnName="IdAccess" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccessRequesteds">
+            <EntityTypeMapping TypeName="AccessRequestsModel.AccessRequested">
+              <MappingFragment StoreEntitySet="AccessRequested">
+                <ScalarProperty Name="IdRequest" ColumnName="IdRequest" />
+                <ScalarProperty Name="IdAccess" ColumnName="IdAccess" />
+                <ScalarProperty Name="IdStatus" ColumnName="IdStatus" />
+                <ScalarProperty Name="UpdateDate" ColumnName="UpdateDate" />
+                <ScalarProperty Name="Comments" ColumnName="Comments" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="ConsultarPositions" FunctionName="AccessRequestsModel.Store.ConsultarPositions">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="AccessRequestsModel.ConsultarPositions_Result">
+                <ScalarProperty Name="Access" ColumnName="Access" />
+                <ScalarProperty Name="Application" ColumnName="Application" />
+                <ScalarProperty Name="Level" ColumnName="Level" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
